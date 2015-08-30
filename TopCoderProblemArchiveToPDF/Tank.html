@@ -1,0 +1,684 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          You control a tank and must hit a number of moving targets as quickly and efficiently as possible.  The targets and tank exist on a 1000x1000 grid, where each location on the grid has an elevation.  During each time step, you may either move to one of the 4 adjacent grid locations, or fire a round of artillery, or pass.  
+          <br/>
+          <br/>
+          
+Your gunnery is spot on, and if it's possible to hit a target, you'll hit it for sure.  However, some locations will be out of range.  The base range of your artillery is 200.  The actual range depends on the elevation difference.  The range increases by 4 for every unit of elevation.  Thus, you may hit a location if 
+          <tt>
+            distance &lt;= 200 + 4 * elevation difference
+          </tt>
+           (distance is Euclidean, elevation difference can be negative). 
+          <br/>
+          <br/>
+          
+Your score for each test case will be the 100 times the number of targets divided by the number of turns it takes you to hit all of them. If you fail to hit all the targets after 10,000 turns, your score will be hit / 200, where hit is the number you hit.  Your final score will simply be the average of your scores for the individual test cases.
+          <br/>
+          <br/>
+          
+The simulation is turn-based.  On each turn you either move, shoot, or pass.  Next some of the remaining targets move to new locations.  Each target will have a speed associated with it, selected randomly in [0,1).  The targets move in a sequence of roughly straight lines by executing the following algorithm 5 times per turn:
+
+          <pre>
+            
+  while(current == target)
+    target = new random point
+  dx = target_x - current_x
+  dy = target_y - current_y
+  if(rand() &lt; speed)
+    if(rand()*(abs(dx)+abs(dy)) &lt; abs(dx))
+      move closer to target in x dimension
+    else
+      move closer to target in y dimension
+
+          </pre>
+          
+There will be between 10 and 100 targets, inclusive, each starting at a random point on the map.
+At the beginning of the game, you will be given the elevation of every location on the map (the first element of map represents y=0, while the first number in each element represents x=0).  On each turn until you have hit all the targets, the turn function will be called with the x and y coordinates of each target, as well as your coordinate (which starts at (0,0)).  You should return a string "R", "L", "U", "D", or "P", for right (positive x), left, up (positive y), down or pass, respectively.  If you wish to shoot instead, you should return a string giving the ID of the target to shoot, where the ID is an index into the x and y parameters.  If the target is in range, you will hit it, and all subsequent calls to turn will list its location as (-1,-1).  If it is out of range, your shot will have no effect.  Similarly, trying to move off the board (less than 0 or more than 999) will be treated as passing.
+          <br/>
+          <br/>
+          
+
+
+The map will be generated with the following code
+
+          <pre>
+            
+        for (i = 0; i &lt; 20; i++) {
+            x[i] = nextInt(1000);   //return an int in [0,999]
+            y[i] = nextInt(1000);
+            z[i] = nextInt(100);
+            w[i] = nextInt(100) / 200.0 + 0.3;
+            f[i] = nextInt(100) + 100;
+        }
+        for(i = 0; i &lt; 1000 ;i++){
+            for(j = 0; j &lt; 1000 ;j++){
+                double n = 0, d = 0;
+                for(int k = 0; k &lt; 20;k++){
+                    double dist = hypot(i-x[k],j-y[k]); //gives length of vector
+                    dist = pow(dist+f[k],-w[k]);
+                    n += dist * z[k];
+                    d += dist;
+                }
+                hh[i][j] = n/d;
+                min = min(min,hh[i][j]);
+                max = max(max,hh[i][j]);
+            }
+        }
+        for(i = 0; i &lt; 1000; i++){
+            for(j = 0; j &lt; 1000;j++){
+                h[i][j] = (int)((hh[i][j]-min)*100/(max-min));
+            }
+        }
+        //h is the final height data
+
+          </pre>
+          
+
+The visualizer works much like those of the past.  Your program should first
+read 1000 lines representing the map in the same format you'd receive it in
+init.  You should then read an integer, N.  One each turn, you should read x,
+then y, followed by N lines, each giving the coordinates of one target.
+
+The password for the visualizer is tank.
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  Tank
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  init
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  String[], int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int init(String[] s, int N)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText"/>
+              </tr>
+              <tr>
+                <td>
+                   
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  turn
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int, int, int[], int[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String turn(int x, int y, int[] tx, int[] ty)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your methods are public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          The time limit is 60 seconds, and the memory limit is 1024M.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "10861885"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 57
+Seed = 10861885"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "13295578"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 45
+Seed = 13295578"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "38635893"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 70
+Seed = 38635893"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6952715"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 88
+Seed = 6952715"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "26746734"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 58
+Seed = 26746734"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "8837753"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 59
+Seed = 8837753"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "37028398"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 24
+Seed = 37028398"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "7926700"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 53
+Seed = 7926700"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "22153526"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 73
+Seed = 22153526"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6936926"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "N = 79
+Seed = 6936926"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

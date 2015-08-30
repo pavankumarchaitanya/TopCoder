@@ -1,0 +1,702 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <p>
+            You are packing shapes into a box, and wish to pack as many as possible.  Each shape must be packed one at a time, in the order they are received, and cannot be moved once packed.  Shapes may not overlap, and may not extend beyond the bounds of the box.
+          </p>
+          <p>
+            Your goal is to pack the box as fully as possible, leaving as little empty space as possible.  For each call of your 
+            <b>
+              placeTile
+            </b>
+             method, return a int[] with three elements, 
+            <i>
+              x
+            </i>
+            , 
+            <i>
+              y
+            </i>
+            , and 
+            <i>
+              r
+            </i>
+            , indicating the location and rotation of the shape to place.  Placing a piece at (x,y) places the upper left corner of its bounding box at that location.  Return an empty int[] when you are no longer able to pack an item into the box.  Both the 
+            <b>
+              box
+            </b>
+             and 
+            <b>
+              item
+            </b>
+             parameters are such that the first character of the first string is the upper-left (0,0) of the box/piece and the last character of the last string is the bottom right.  Each 'X' character indicates part of a piece, or a location in the box that is already filled, while each '.' character represents an empty location.
+          </p>
+          <p>
+            The width and height of the box are chosen between 10 and 100, uniformly at random.  Each shape to place is a polyomino of size 4 or 5 that can be rotated in 90 degree increments, but not flipped over.  There are 7 such pieces of size 4, and 18 of size 5.  Each of the 25 total pieces is equally likely to be chosen next.  An example of rotating a piece is shown below:
+          </p>
+          <pre>
+            
+XXX     XX      X..     .X
+..X     X.      XXX     .X
+        X.              XX
+r = 0   r = 1   r = 2   r = 3
+
+          </pre>
+          <p>
+            Your raw score for each test case will be the amount of unused space in the box.  (If your solution produces an error, makes an invalid move, etc, then all spaces are considered unused.)  The total unused spaces over all cases will be summed for each submission.  Your final score will be 1000 * best_sum / your_sum.
+          </p>
+          
+A 
+          <a href="http://www.topcoder.com/contest/problem/ShapePackaging/vis.html">
+            visualization tool
+          </a>
+           is available to aid you in development.
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  ShapePackaging
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  placeTile
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  String[], String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int[] placeTile(String[] box, String[] item)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Runtime limit is 30 seconds per test case.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Memory limit is 1024 MB.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "1"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 10
+height = 10"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "2"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 20
+height = 20"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "3"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 40
+height = 40"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "4"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 70
+height = 70"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "5"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 100
+height = 100"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 14
+height = 81"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "7"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 13
+height = 22"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "8"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 11
+height = 54"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "9"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 10
+height = 49"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "10"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 12
+height = 81"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

@@ -1,0 +1,1565 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <p>
+            
+You are the manager (and owner) of a manufacturing company, which has a warehouse and a production factory.
+Your factory has several automated production lines.
+Each line can create complex products from others simpler products.
+You can buy base products and store them with your manufactured products in your limited capacity warehouse.
+Your task will be to maximize profits by managing the day by day factory operations.
+          </p>
+          <h3>
+            Your Factory
+          </h3>
+          <p>
+            
+There are 
+            <b>
+              B
+            </b>
+             different base products and 
+            <b>
+              M
+            </b>
+             different manufactured products.
+Base products are denoted by integers from 0 to 
+            <b>
+              B
+            </b>
+            -1 and manufactured products are denoted by integers from 
+            <b>
+              B
+            </b>
+             to 
+            <b>
+              B
+            </b>
+            +
+            <b>
+              M
+            </b>
+            -1.
+Each day, you may produce up to 
+            <b>
+              L
+            </b>
+             manufactured products. 
+The prerequisite products must be available in sufficient quantities from the warehouse, and you cannot use a product as a prerequisite on the day it is produced.  The output products will be brought to the warehouse, which has a limited capacity: you can store at most 
+            <b>
+              C
+            </b>
+             products (including base products).
+          </p>
+          <p>
+            
+Your company has a commercial team that negotiates contracts with customers.
+Each contract is defined by the quantities of products to deliver, a total price, a maximal date of delivery, and a penalty rate in case of delay.
+You can accept or reject these contracts but your decision is always final.
+
+          </p>
+          <p>
+            
+Your typical day as the Factory manager is (in order):
+
+          </p>
+          <ol>
+            <li>
+              You accept or reject the contracts negotiated by your commercial team.
+            </li>
+            <li>
+              You optionally order some base products.
+            </li>
+            <li>
+              You determine the production quantity of each manufactured product.
+            </li>
+            <li>
+              The required products for the production process are brought from the warehouse to the production factory.
+            </li>
+            <li>
+              The factory produces the manufactured products.
+            </li>
+            <li>
+              The manufactured products created by the production lines are brought to the warehouse.
+            </li>
+            <li>
+              You optionally decide which contracts are finalized: the corresponding products are taken from the warehouse and you get paid.
+            </li>
+            <li>
+              You pay penalties for all the contracts that you were supposed to ship today or earlier, and that you did not ship.
+            </li>
+            <li>
+              Late in the evening, your warehouse receives the base products ordered in the morning.
+            </li>
+          </ol>
+          
+The order is important to understand the management of the warehouse.
+          <p>
+          </p>
+          <h3>
+            Implementation Details
+          </h3>
+          <p>
+            
+You will have to manage the factory on a day by day simulation.
+For this you must provide two functions:
+          </p>
+          <p>
+            
+First, an 
+            <b>
+              init
+            </b>
+             function that receive the parameters:
+
+          </p>
+          <ul>
+            <li>
+              <b>
+                B
+              </b>
+               -- number of base products,
+            </li>
+            <li>
+              <b>
+                M
+              </b>
+               -- number of manufactured products,
+            </li>
+            <li>
+              <b>
+                L
+              </b>
+               -- production limit in number of products by day,
+            </li>
+            <li>
+              <b>
+                C
+              </b>
+               -- the capacity of the warehouse,
+            </li>
+            <li>
+              <b>
+                processes
+              </b>
+               containing the 
+              <b>
+                M
+              </b>
+               manufacturing processes.
+            </li>
+          </ul>
+          <b>
+            processes[i]
+          </b>
+           is a space separated list of products required to produce 
+          <b>
+            B
+          </b>
+          +i.
+The init function may return any integer (which is ignored).
+          <p>
+          </p>
+          <p>
+            
+Then a 
+            <b>
+              manage
+            </b>
+             function that will be called at each step of the simulation.
+This function receives several parameters necessary to manage the factory.
+A int[] 
+            <b>
+              warhouse
+            </b>
+             gives the 
+            <b>
+              B
+            </b>
+            +
+            <b>
+              M
+            </b>
+             quantities of products in the warehouse.
+A int[]  
+            <b>
+              prices
+            </b>
+             gives the 
+            <b>
+              B
+            </b>
+             prices of the base products.
+A String[]  
+            <b>
+              contracts
+            </b>
+             gives the contracts of the day that you have to validate.
+Each contract contains is formatted as:
+            <br/>
+            <tt>
+              "ID PRICE DAYS PENALTY C
+              <sub>
+                0
+              </sub>
+               C
+              <sub>
+                1
+              </sub>
+               ... C
+              <sub>
+                M-1
+              </sub>
+              "
+            </tt>
+            .
+            <br/>
+            
+  ID is a unique contract ID, PRICE is the sale price, DAYS is the number of days you have to fulfill the contract, PENALTY is the penalty rate (mutiplied by 1000) and C
+            <sub>
+              i
+            </sub>
+             is the number of products of type 
+            <b>
+              B
+            </b>
+            +i to deliver. Example if B=5 and M=9, contract "35 5540 52 24 0 0 10 0 0 17 0 3 0" means: contract ID35 for 10 manufactured products of type "7", 17 manufactured products of type "10" and 3  manufactured products of type "12" for $5540, after 52 days there is a 5540*24/1000 penalty per day.
+
+          </p>
+          <p>
+            
+Your 
+            <b>
+              manage
+            </b>
+             function must return a String[] containing 4 elements (lists of integers separated by spaces).
+
+          </p>
+          <ol>
+            <li>
+              The quantities of each base product that you buy (exactly 
+              <b>
+                B
+              </b>
+               integers).
+            </li>
+            <li>
+              The production quantities of each manufactured product (exactly 
+              <b>
+                M
+              </b>
+               integers). Their sum must be less or equal to the production limit 
+              <b>
+                L
+              </b>
+              .
+            </li>
+            <li>
+              The list of accepted contracts (IDs of contracts, this list must be a subset of the IDs given in 
+              <b>
+                contracts
+              </b>
+              , if you do not accept any contract use an empty string).
+            </li>
+            <li>
+              The list of contracts IDs that you ship (IDs of previously accepted contracts).
+            </li>
+          </ol>
+          <p>
+          </p>
+          <h3>
+            Money matters
+          </h3>
+          <p>
+            
+Each base product has a reference price 
+            <b>
+              P0
+            </b>
+            . Its market price is updated daily according to the following scheme: newPrice[i] = P0[i]
+            <sup>
+              0.01
+            </sup>
+            *oldPrice[i]
+            <sup>
+              0.99
+            </sup>
+            *1.05
+            <sup>
+              r
+            </sup>
+             where r is a random uniform variable between -1 and 1.
+The initial price (day 0) is obtained by applying 1000 times this scheme starting from the reference price.
+Each manufactured product has a price equal to the sum of the prices of its constituting products plus a value factor 
+            <b>
+              F
+            </b>
+             multiplied by the complexity of the process (in number of required products).
+For example if a manufactored product requires one each of products 1, 2, 4 and 13, then its price will be:
+            <br/>
+            <tt>
+              Price[22] = 4*
+              <b>
+                F
+              </b>
+              [22] + Price[1]+Price[2]+Price[4]+Price[13]
+            </tt>
+            .
+As the prices of the base products fluctuate, the prices of the manufactured products also fluctuate.
+          </p>
+          <p>
+            Prices are simulated internly with double precision. However we provide rounded integer values to your function. The actual prices of your transactions will always be the rounded value. The balance of your account is initially 0 and it is allowed to have a negative balance.
+          </p>
+          <h3>
+            End of simulation and scoring
+          </h3>
+          <p>
+            After a very long period of very hard work (5000 days), you decide to sell you factory in order to buy a private island to retire.
+You negotiated that all the current accepted contract will be honoured by your successor in exchange of the entire stock in the warehouse.
+The simulation will end after 5000 steps.
+At the end ot the 5000
+            <sup>
+              th
+            </sup>
+             day, after receiving the money for the contracts you just shipped and paying the penalties for the delays of the current late contracts,
+you gather your money and leave forever, leaving the current contracts (late or not) and the current stock to be handled by your successor.
+
+          </p>
+          <p>
+            For each test case your score is your profits measured by the amount of money on your account when you leave.
+If you have lost money then your score will be 0.
+Your total score will be the sum of your relative scores (your score / best score)
+          </p>
+          <p>
+            Any invalid action will give you a 0 score.
+For example exceeding the warehouse capacity; insufficient quantities of necessary products; produce more than 
+            <b>
+              L
+            </b>
+             products; ship several times the same contract; refer to a inexistent or rejected contract; refer to an inexistent product; bad size of the returned vector; etc...
+          </p>
+          <h3>
+            Parameter generation
+          </h3>
+          <p>
+            <b>
+              Base parameters: 
+            </b>
+            
+The following parameters are chosen randomly and uniformly in the following inclusive ranges:
+
+          </p>
+          <ul>
+            <li>
+              <b>
+                B
+              </b>
+               (number of base products) between 5 and 25.
+            </li>
+            <li>
+              <b>
+                M
+              </b>
+               (number of manufactured products) between 5 and 25.
+            </li>
+            <li>
+              <b>
+                L
+              </b>
+               (production limit by day) between 100 and 1000.
+            </li>
+            <li>
+              <b>
+                C
+              </b>
+               (capacity of the warehouse) between 1000 and 10000.
+            </li>
+            <li>
+              The reference price 
+              <b>
+                P0
+              </b>
+               of each base product is equal to 50*2
+              <sup>
+                r
+              </sup>
+               where r is between -1 and 1.
+            </li>
+            <li>
+              The value factor 
+              <b>
+                F
+              </b>
+               of each manufactured product is equal to 5*2
+              <sup>
+                r
+              </sup>
+               where r is between -1 and 1.
+            </li>
+          </ul>
+          <p>
+          </p>
+          <p>
+            <b>
+              Process specifications: 
+            </b>
+            
+The number of products required to make a manufactured product is randomly chosen as 
+            <tt>
+              floor(1.5 + 6*r
+              <sup>
+                2
+              </sup>
+              )
+            </tt>
+             where r is between 0 and 1.
+Each required products is randomly and independently chosen among all the products having a lower number than the output product with possible repetition.
+          </p>
+          <p>
+            <b>
+              Contracts: 
+            </b>
+          </p>
+          <ul>
+            <li>
+              The number of contracts that you receive each day is randomly chosen between 0 and 10, inclusive.
+            </li>
+            <li>
+              The contract IDs will be unique integers.
+            </li>
+            <li>
+              The number of 
+              <i>
+                different
+              </i>
+               products ordered is randomly chosen between 1 and 5, inclusive.
+            </li>
+            <li>
+              The requested products are then randomly chosen among the 
+              <b>
+                M
+              </b>
+               possible products, 
+              <i>
+                without repetitions
+              </i>
+              .
+            </li>
+            <li>
+              For each product, the quantity ordered is ceil(1000*r
+              <sup>
+                3
+              </sup>
+              ) where r is a random uniform variable in [0, 1].
+            </li>
+            <li>
+              The maximal number of days to honor the contract is chosen between 0 and 100, inclusive.
+A maximal number of days equals to 1 means that you have to ship the products at the end of the next day.
+            </li>
+            <li>
+              The penalty rate is chosen between 0 and 50 (i.e. between 0% to 5% per day).
+            </li>
+            <li>
+              The amount of the contract is equal to the current market price of the products multiplied by two modifying factors.
+  The first one depends on the negotiation skill of your commercial team, this factor is chosen as 1.5
+              <sup>
+                r
+              </sup>
+               where r is a random uniform variable between -1 and 1.
+  The second one is a stress factor equals to 
+              <tt>
+                min(1.5, 1+(number_of_products_requested/maximal_number_of_days)*penalty_rate/10000)
+              </tt>
+              . If maximal_number_of_days = 0 then the stress factor is 1.5 (or 1.0 if rate also equals zero)
+            </li>
+          </ul>
+          <p>
+          </p>
+          <h3>
+            Tools
+          </h3>
+          
+A 
+          <a href="http://www.topcoder.com/contest/problem/FactoryManager/Tester.jar">
+            jar
+          </a>
+           file and the 
+          <a href="http://www.topcoder.com/contest/problem/FactoryManager/FactoryManager.java">
+            source
+          </a>
+           are available for offline testing.  To use this tool, you will need to create an executable out of your submission.  The executable must communicate with the tool via standard out and standard in.  You should read the parameters from standard in, and write your outputs to standard out.  You may write debugging statements to standard error.  To run the tool, open a console, and run "java -jar Tester.jar &lt;command&gt; &lt;seed&gt;".  &lt;command&gt; is the command for your executable (Java users must do something like "java class") and &lt;seed&gt; is a seed for the random number generator (examples are 1-10).
+          <br/>
+          <br/>
+          
+You should first read the init parameters. 
+          <b>
+            B
+          </b>
+          , 
+          <b>
+            M
+          </b>
+          , 
+          <b>
+            L
+          </b>
+           and 
+          <b>
+            C
+          </b>
+           will first be given on one line.  The next 
+          <b>
+            M
+          </b>
+           lines will contain the 
+          <b>
+            M
+          </b>
+           elements of 
+          <b>
+            processes
+          </b>
+          .  You should not output anything after receiving the init parameters.  You will then receive the manage parameters exactly 5000 times.  Each time, the elements of 
+          <b>
+            warehouse
+          </b>
+           will be given on one line, and the elements of 
+          <b>
+            prices
+          </b>
+           will be given on the next line.  A single line will then contain 
+          <b>
+            N
+          </b>
+          , the number of contracts.  The following 
+          <b>
+            N
+          </b>
+           lines will contain the 
+          <b>
+            N
+          </b>
+           contracts.  Each reading the parameters to manage, you should print exactly four lines to standard out, containing the four elements of your return.
+          <br/>
+          <br/>
+          
+For example, the text below gives the contents you must read from standard in for the call to init, and the first call to manage for example 0:
+
+          <pre>
+            
+21 14 876 7426
+14 7
+14 7 5 2 1
+12 1 22 8
+17 23 15 5 20 18
+1 11 7 17 11 15 19
+21 0 24 19 6 9
+8 15
+11 0 7
+9
+5 28 29
+19 27
+2 27
+19 26
+12 20
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+30 43 70 34 44 32 35 50 64 58 66 80 21 65 37 39 98 76 52 60 41
+6
+0 211338 73 35 0 1 0 0 300 0 0 266 0 0 0 0 0 34
+1 655720 1 15 0 0 0 0 0 446 0 0 0 0 0 0 0 1
+2 101436 59 37 0 1 143 0 37 0 0 0 900 1 0 0 0 0
+3 320 84 31 0 1 0 0 0 0 0 0 0 0 0 0 0 0
+4 4830 100 25 0 0 0 0 0 0 0 0 0 0 30 0 0 0
+5 20920 36 15 0 0 0 35 0 0 0 0 0 0 0 0 0 0
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  FactoryManager
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  init
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int, int, int, int, String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int init(int B, int M, int L, int C, String[] processes)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText"/>
+              </tr>
+              <tr>
+                <td>
+                   
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  manage
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int[], int[], String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String[] manage(int[] warhouse, int[] prices, String[] contracts)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your methods are public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Time limit is 30 seconds.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Memory limit is 1GB.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "1"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 21
+M = 14
+L = 876
+C = 7426
+Product 0: P=30.467057930553647 P0=33.006314788649775
+Product 1: P=43.481783596104044 P0=47.845366073188664
+Product 2: P=69.56655575272202 P0=93.76896164038025
+Product 3: P=33.67938336794847 P0=33.36908959363036
+Product 4: P=43.65861493607287 P0=27.85634704408539
+Product 5: P=31.564949927614162 P0=33.088036912740456
+Product 6: P=35.3081606366463 P0=35.743061584806554
+Product 7: P=50.19182908882418 P0=59.96794871085762
+Product 8: P=64.11956864880528 P0=81.26844543438246
+Product 9: P=57.72714854722601 P0=42.169786968566
+Product 10: P=65.73358207712664 P0=89.45981852482852
+Product 11: P=79.88578054217935 P0=85.00778467304987
+Product 12: P=21.105545663065868 P0=26.3968875207382
+Product 13: P=65.07741989225501 P0=54.33421422778455
+Product 14: P=36.54261431045972 P0=36.02592453123869
+Product 15: P=38.8825541055492 P0=34.29358922388757
+Product 16: P=97.9281039385543 P0=94.79166739434143
+Product 17: P=75.52508597127817 P0=72.33723047718561
+Product 18: P=51.61296062330573 P0=52.70677796642459
+Product 19: P=59.94954098584402 P0=55.63548438998127
+Product 20: P=41.188483810703815 P0=46.86391458866739
+Product 21: P=95.63324677771831 F=4.449401689217211 (21=14+7)
+Product 22: P=260.367097876033 F=5.80387304006177 (22=14+7+5+2+1)
+Product 23: P=421.8492982698891 F=8.193825621470229 (23=12+1+22+8)
+Product 24: P=684.9954423337102 F=4.062018270895007 (24=17+23+15+5+20+18)
+Product 25: P=451.7574419665015 F=3.4221553049347397 (25=1+11+7+17+11+15+19)
+Product 26: P=989.7226045688892 F=4.273667892865123 (26=21+0+24+19+6+9)
+Product 27: P=117.30374537504716 F=7.1508113103463415 (27=8+15)
+Product 28: P=169.91244422693424 F=3.1225922217923543 (28=11+0+7)
+Product 29: P=63.64637651579069 F=5.919227968564682 (29=9)
+Product 30: P=273.5599264105531 F=2.8120519134046775 (30=5+28+29)
+Product 31: P=185.75916791464988 F=4.252940776879345 (31=19+27)
+Product 32: P=192.6728025338334 F=2.901250703032099 (32=2+27)
+Product 33: P=1058.1683778795912 F=4.248116162428947 (33=19+26)
+Product 34: P=69.54474034601071 F=3.6253554361205143 (34=12+20)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "2"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 11
+M = 17
+L = 543
+C = 5324
+Product 0: P=33.476148795494225 P0=32.955982909225604
+Product 1: P=56.81892923962181 P0=73.64283167603583
+Product 2: P=21.883764533194736 P0=30.68375637488481
+Product 3: P=38.20272728625397 P0=43.00475972491574
+Product 4: P=31.435631049908014 P0=25.14965975858976
+Product 5: P=64.25115614494297 P0=61.03111259643422
+Product 6: P=78.83407129232229 P0=83.23303834189075
+Product 7: P=100.3758516814169 P0=99.86217124936097
+Product 8: P=64.31277314031621 P0=68.64528756376869
+Product 9: P=95.11863948203627 P0=85.00190178497206
+Product 10: P=31.836877393952204 P0=35.395253498985404
+Product 11: P=181.4463658597204 F=7.969866931527193 (11=2+6+1)
+Product 12: P=143.85417155890076 F=5.798961327705654 (12=3+4+1)
+Product 13: P=41.88196361150912 F=3.679236325255153 (13=3)
+Product 14: P=484.69495710293086 F=9.849116826886812 (14=9+2+9+13+11)
+Product 15: P=85.17493299970272 F=6.340861707380428 (15=6)
+Product 16: P=394.2508414648499 F=2.8476874929500635 (16=0+1+8+12+1+2)
+Product 17: P=561.3018340861714 F=7.7314689887494845 (17=4+11+2+11+1+13)
+Product 18: P=258.0552506773243 F=3.383075378534665 (18=0+6+10+7)
+Product 19: P=45.21664960824362 F=3.3346859967345024 (19=13)
+Product 20: P=166.66436273690258 F=2.8298209187532706 (20=4+0+19+19)
+Product 21: P=213.136427353591 F=4.134668665217218 (21=20+3)
+Product 22: P=891.1480255433789 F=3.6627906282859994 (22=4+9+2+17+8+9)
+Product 23: P=461.7514689700231 F=5.339604727294515 (23=8+11+9+0+0+2)
+Product 24: P=959.8834927590874 F=5.958268988043339 (24=22+1)
+Product 25: P=573.9168601725329 F=5.193915888639864 (25=14+6)
+Product 26: P=35.57743133702424 F=3.7405539430720305 (26=10)
+Product 27: P=207.4695088348561 F=2.973074489706835 (27=4+13+7+2)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "3"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 24
+M = 17
+L = 294
+C = 4064
+Product 0: P=38.65130158197142 P0=26.556182291114226
+Product 1: P=74.47919714550947 P0=82.76253031804238
+Product 2: P=65.61933711880552 P0=73.01307093796466
+Product 3: P=89.44556974768923 P0=81.22312435268304
+Product 4: P=55.48578812468421 P0=55.158187440601345
+Product 5: P=35.96931422814248 P0=41.53827466846898
+Product 6: P=31.58419834179683 P0=25.068425719913467
+Product 7: P=53.94611058807457 P0=42.304574894738266
+Product 8: P=80.01029067386135 P0=91.34237757998129
+Product 9: P=33.65216435603129 P0=30.307411243179715
+Product 10: P=73.32867262664242 P0=55.48032719604608
+Product 11: P=26.52130927496994 P0=26.37474104898355
+Product 12: P=38.60664248379992 P0=45.713010421599044
+Product 13: P=31.088564926894637 P0=26.929024353199278
+Product 14: P=78.20329056841291 P0=88.09979662092289
+Product 15: P=40.72650443636486 P0=38.53070382804417
+Product 16: P=36.4291906083585 P0=30.178851936434526
+Product 17: P=79.28972808999642 P0=63.37322448684793
+Product 18: P=43.128267317171705 P0=48.54822461113692
+Product 19: P=32.29212044342042 P0=35.004061865173405
+Product 20: P=86.47159597334513 P0=92.19177800633852
+Product 21: P=35.61940055647144 P0=44.47873490333926
+Product 22: P=54.612970966399544 P0=64.03835592365648
+Product 23: P=55.748187950153344 P0=67.79351506926619
+Product 24: P=148.31048533444283 F=2.641311184254429 (24=10+5+13)
+Product 25: P=361.27693027199484 F=9.162146070222217 (25=4+15+0+24+19)
+Product 26: P=153.81700879787965 F=5.50652346343683 (26=24)
+Product 27: P=408.3822989361855 F=3.0294287743018735 (27=0+26+4+24)
+Product 28: P=39.55080783230212 F=3.931407275830678 (28=21)
+Product 29: P=190.30041304123085 F=3.0103067393227745 (29=5+24)
+Product 30: P=161.6626810964005 F=8.376807943799282 (30=2+17)
+Product 31: P=440.72258540189745 F=2.9179481181063025 (31=30+2+28+8+17)
+Product 32: P=130.39113169761316 F=7.8410181807501145 (32=19+12+5)
+Product 33: P=308.8486677397809 F=3.1347070152810503 (33=18+2+8+13+10)
+Product 34: P=122.49593782663061 F=5.712223587097709 (34=13+0+21)
+Product 35: P=144.89621590203814 F=5.830188611983582 (35=17+7)
+Product 36: P=189.33907906407842 F=3.6882146868021426 (36=9+24)
+Product 37: P=237.69306251557575 F=4.393003495272491 (37=12+29)
+Product 38: P=479.77403114120034 F=2.6831008731239407 (38=29+9+1+4+16+10)
+Product 39: P=413.06200310356627 F=6.589215173885755 (39=25+12)
+Product 40: P=118.80635846166732 F=3.435521675612498 (40=10+12)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "4"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 5
+M = 8
+L = 373
+C = 8538
+Product 0: P=89.3765106841046 P0=83.13122042912711
+Product 1: P=55.737617072257656 P0=51.413508608860894
+Product 2: P=34.26032367496541 P0=31.864964663532884
+Product 3: P=48.8787548206847 P0=39.21585332955063
+Product 4: P=44.32997356409447 P0=60.34143574301969
+Product 5: P=208.15145306685147 F=4.719523496601508 (5=0+1+3)
+Product 6: P=155.471468095342 F=8.608101295276345 (6=0+3)
+Product 7: P=53.046159114496206 F=4.167404293811506 (7=3)
+Product 8: P=310.58876242028884 F=4.394648094018293 (8=4+4+6+3)
+Product 9: P=314.5280932866052 F=3.9393308663163835 (9=8)
+Product 10: P=65.05920412130523 F=9.321587049047569 (10=1)
+Product 11: P=56.99788503433386 F=3.951725919837654 (11=7)
+Product 12: P=163.75040190096004 F=8.27893380561803 (12=6)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "5"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 22
+M = 5
+L = 209
+C = 6585
+Product 0: P=39.97720766552882 P0=49.17810891471672
+Product 1: P=100.52320261016708 P0=74.6891916522258
+Product 2: P=39.20677653716936 P0=38.611274834622215
+Product 3: P=35.443660007348285 P0=33.02252166478518
+Product 4: P=82.16966552067379 P0=84.94094398669714
+Product 5: P=56.964360721681196 P0=71.67666705642664
+Product 6: P=53.650621511314135 P0=54.01365471765429
+Product 7: P=57.66124546179076 P0=52.613556392946556
+Product 8: P=20.778721420432767 P0=28.824580952278545
+Product 9: P=32.15415224996614 P0=41.61188797840493
+Product 10: P=25.346105372684796 P0=28.290221250730855
+Product 11: P=50.78057355314793 P0=52.633101075595924
+Product 12: P=54.875737865691995 P0=56.25999649876026
+Product 13: P=52.23453830745965 P0=37.79973345719665
+Product 14: P=30.288402329569017 P0=30.495956523999347
+Product 15: P=122.86791092363514 P0=95.77365869084313
+Product 16: P=34.9520954824441 P0=42.98488515625064
+Product 17: P=90.1497154263361 P0=69.9818436591882
+Product 18: P=51.64581232578584 P0=38.02494323314488
+Product 19: P=37.26847321914346 P0=33.25622941683438
+Product 20: P=80.87455465993273 P0=82.58475203338351
+Product 21: P=44.18711394582331 P0=38.80375440954096
+Product 22: P=307.0592859740742 F=4.371060896910054 (22=1+12+12+0+16)
+Product 23: P=341.3238713826175 F=4.459240017929249 (23=22+10)
+Product 24: P=259.1757781063878 F=9.099426421107491 (24=4+11+16+12)
+Product 25: P=529.3873207089586 F=6.7170572642769475 (25=8+20+18+3+22)
+Product 26: P=410.74476809002186 F=6.582152758354831 (26=6+22+14)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 8
+M = 17
+L = 497
+C = 5738
+Product 0: P=36.3860163867334 P0=35.42105357563672
+Product 1: P=47.63559415835839 P0=40.860951667954446
+Product 2: P=82.11817577516202 P0=67.87148262528426
+Product 3: P=18.895234885002566 P0=25.534614293843426
+Product 4: P=78.44333007200864 P0=94.35063490587953
+Product 5: P=45.30903073579938 P0=48.51229099519235
+Product 6: P=68.51849498192495 P0=63.63003968676904
+Product 7: P=26.882550749066116 P0=37.4313428619823
+Product 8: P=92.77443687547576 F=2.680353504274122 (8=3+6)
+Product 9: P=41.47227678931647 F=5.086260402583068 (9=0)
+Product 10: P=21.421392193310254 F=2.5261573083076874 (10=3)
+Product 11: P=51.70447093929622 F=4.068876780937837 (11=1)
+Product 12: P=148.08089889656725 F=2.9875660301145004 (12=3+11+6)
+Product 13: P=195.31165851819364 F=3.9722505605277014 (13=0+7+1+6)
+Product 14: P=306.54834621726513 F=2.6092486068263563 (14=11+11+13)
+Product 15: P=749.3149738441846 F=5.341280378062889 (15=11+14+10+0+14)
+Product 16: P=402.20408744028276 F=6.76878272392781 (16=14+2)
+Product 17: P=600.5664696117968 F=5.645121785623559 (17=4+4+16+3)
+Product 18: P=46.83587132678598 F=5.363594537469512 (18=9)
+Product 19: P=758.6074052086769 F=9.292431364492382 (19=15)
+Product 20: P=765.302062013604 F=6.694656804926983 (20=19)
+Product 21: P=32.21846118566408 F=5.335910436597969 (21=7)
+Product 22: P=1088.4037554238498 F=3.6763828294389778 (22=21+13+15+11+9)
+Product 23: P=49.2150977240359 F=7.742820934719433 (23=9)
+Product 24: P=455.6178787129583 F=4.0523802684380845 (24=5+16)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "7"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 23
+M = 7
+L = 843
+C = 1489
+Product 0: P=65.39747424449513 P0=75.61547796565704
+Product 1: P=40.52920100364615 P0=33.71512593463487
+Product 2: P=40.67979612399307 P0=37.65362680491842
+Product 3: P=33.103955548239824 P0=31.781321651058718
+Product 4: P=35.45234797381355 P0=32.54222639030798
+Product 5: P=29.069608806425784 P0=38.13223741005848
+Product 6: P=80.40397430979178 P0=79.94341212399485
+Product 7: P=90.86672276129048 P0=95.52674092455817
+Product 8: P=33.861962063741004 P0=30.94808900952203
+Product 9: P=79.68961533758782 P0=76.47615957199247
+Product 10: P=29.582519859697243 P0=31.631837380625132
+Product 11: P=31.7679231843823 P0=35.32880590952081
+Product 12: P=90.77840229163581 P0=96.19344613622465
+Product 13: P=44.98216349863044 P0=40.66260012007911
+Product 14: P=38.589793130591495 P0=38.78754674292166
+Product 15: P=26.847240412840144 P0=30.441524773749233
+Product 16: P=90.85885184524554 P0=72.77798727339608
+Product 17: P=41.538090991612606 P0=40.209143318702594
+Product 18: P=42.88993149513911 P0=35.93568297121617
+Product 19: P=112.499458224725 P0=95.14451655159947
+Product 20: P=41.003937146361245 P0=44.987022291053
+Product 21: P=20.294968602046247 P0=26.29429083854741
+Product 22: P=51.54471423506227 P0=51.99506607616495
+Product 23: P=178.24468042864015 F=3.8014265353116388 (23=4+16+1)
+Product 24: P=475.79082990359836 F=7.339515546976816 (24=1+15+1+23+3+19)
+Product 25: P=224.81648797103898 F=8.302685430739063 (25=9+9+1)
+Product 26: P=33.33041534751097 F=4.26080654108519 (26=5)
+Product 27: P=390.3860433098215 F=5.30710408643435 (27=5+2+14+23+5+18)
+Product 28: P=191.76827737135793 F=9.693340538213937 (28=15+13+16)
+Product 29: P=127.99830837205745 F=2.7093807696652625 (29=9+18)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "8"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 9
+M = 11
+L = 902
+C = 1158
+Product 0: P=88.82776858207922 P0=85.24825652023821
+Product 1: P=31.82229270089032 P0=27.150141262627063
+Product 2: P=44.05872017792101 P0=62.596718464822864
+Product 3: P=32.179023506869285 P0=44.36780596203697
+Product 4: P=59.72482319513359 P0=68.26749009680803
+Product 5: P=52.561117395229005 P0=44.838725993394384
+Product 6: P=40.84277984915369 P0=26.197914184945425
+Product 7: P=96.95611249410733 P0=99.52899991401705
+Product 8: P=37.72574875566561 P0=44.64465738143755
+Product 9: P=40.0648403711694 F=8.242547670279084 (9=1)
+Product 10: P=106.76787335008848 F=7.432013324042809 (10=3+4)
+Product 11: P=415.63155022418215 F=2.5748791299511 (11=3+0+8+7+8+10)
+Product 12: P=104.78889672783299 F=4.084529577341486 (12=2+5)
+Product 13: P=687.1123792099213 F=6.940060214960386 (13=6+1+8+11+4+4)
+Product 14: P=858.9967646305532 F=8.182975403685335 (14=0+4+10+3+10+11)
+Product 15: P=1016.2202430038956 F=2.8902955320432184 (15=0+14+4)
+Product 16: P=168.77307247635866 F=9.627921293511164 (16=5+7)
+Product 17: P=97.99705845267151 F=9.169289870592294 (17=0)
+Product 18: P=137.43586983426218 F=3.141084975900648 (18=8+5+8)
+Product 19: P=43.943221800022485 F=3.1004419508687886 (19=6)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "9"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 15
+M = 20
+L = 278
+C = 2525
+Product 0: P=67.19398844824225 P0=85.66029640188628
+Product 1: P=35.51830741346755 P0=25.198432128900205
+Product 2: P=32.73228492365504 P0=54.481161660687704
+Product 3: P=51.920114942729725 P0=42.71787183215023
+Product 4: P=55.39840472565144 P0=55.121979001988365
+Product 5: P=45.63881586672027 P0=58.21485853753528
+Product 6: P=43.46797864061991 P0=44.90295637008834
+Product 7: P=37.51635933233866 P0=38.402985678407596
+Product 8: P=27.54156625555124 P0=39.855793046134124
+Product 9: P=22.259032176228555 P0=27.977366003535582
+Product 10: P=37.60577109771973 P0=31.61330940342112
+Product 11: P=41.97188612057414 P0=33.39095980535855
+Product 12: P=52.96530264684559 P0=63.781842549713595
+Product 13: P=17.8302983907773 P0=28.20547999110316
+Product 14: P=56.80038863262895 P0=51.371125712416564
+Product 15: P=287.9971056133796 F=9.847052281998126 (15=9+6+1+2+12+11)
+Product 16: P=106.80408193957672 F=4.716895546675573 (16=11+4)
+Product 17: P=49.69467593930376 F=7.722789818729616 (17=11)
+Product 18: P=461.6561538762852 F=3.351525896899984 (18=16+15+14)
+Product 19: P=249.7194083386562 F=7.453427097980839 (19=8+10+10+11+8+2)
+Product 20: P=203.6969265737668 F=3.022158059207445 (20=12+10+4+5)
+Product 21: P=100.16817522852625 F=7.757887681070744 (21=3+2)
+Product 22: P=53.64923803716512 F=4.138686695418291 (22=8+13)
+Product 23: P=44.91548563578838 F=2.9435995152142373 (23=11)
+Product 24: P=464.57255251490824 F=2.9163986386230265 (24=18)
+Product 25: P=73.4344740250799 F=6.240485576837647 (25=0)
+Product 26: P=612.0452953679453 F=6.3345401304771265 (26=1+14+18+2)
+Product 27: P=354.0020162205779 F=6.177836285016609 (27=15+22)
+Product 28: P=49.62857304874247 F=4.713087412954092 (28=23)
+Product 29: P=120.19239786663817 F=7.549658600841489 (29=4+17)
+Product 30: P=105.98752542468488 F=6.536380683347387 (30=4+7)
+Product 31: P=665.2429414509058 F=8.26829771301643 (31=4+14+24+4)
+Product 32: P=363.4674986655808 F=6.740882333298944 (32=12+4+7+16+10+2)
+Product 33: P=238.14315346130218 F=3.2201982817638104 (33=4+1+16+8)
+Product 34: P=109.59231804433732 F=2.7882361047605944 (34=16)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "10"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"B = 9
+M = 15
+L = 323
+C = 9146
+Product 0: P=27.492190268144938 P0=31.236829732058624
+Product 1: P=107.55208918872971 P0=95.79384064243415
+Product 2: P=104.61061212076584 P0=87.1004696780129
+Product 3: P=27.700517761193115 P0=34.713457593946664
+Product 4: P=39.93963455671486 P0=35.207336378312405
+Product 5: P=68.85472281664039 P0=73.91243714688865
+Product 6: P=89.4336061094451 P0=76.40492231588654
+Product 7: P=53.03897262678645 P0=68.32998427812953
+Product 8: P=98.26178354207231 P0=62.36409829812241
+Product 9: P=349.70244650175306 F=3.296289901090843 (9=7+6+5+5+7)
+Product 10: P=772.1666740621114 F=2.7555918333436304 (10=8+9+8+2+1)
+Product 11: P=201.6737407373873 F=3.8147612535881814 (11=6+2)
+Product 12: P=101.34790359645586 F=3.086120054383554 (12=8)
+Product 13: P=1348.8401623550164 F=9.818913034908691 (13=10+9+6+8)
+Product 14: P=110.12720929303397 F=5.516597172268131 (14=2)
+Product 15: P=453.1993130192064 F=2.617541487690502 (15=9+8)
+Product 16: P=1807.2880996095441 F=2.624312117660602 (16=13+15)
+Product 17: P=466.6857132681494 F=3.4280287366811835 (17=14+9)
+Product 18: P=1812.1906757628972 F=4.902576153353124 (18=16)
+Product 19: P=2149.1625550267645 F=8.886491335577386 (19=7+6+14+18+4)
+Product 20: P=817.6394922554299 F=2.702463319629915 (20=9+14+9)
+Product 21: P=1816.645240056567 F=4.45456429366992 (21=18)
+Product 22: P=1820.1221791452303 F=7.93150338233327 (22=18)
+Product 23: P=5481.110823693461 F=6.367679400415368 (23=5+19+13+3+13+15+4)
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

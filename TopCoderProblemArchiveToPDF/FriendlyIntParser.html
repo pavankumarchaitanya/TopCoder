@@ -1,0 +1,144 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <pre>
+            Class Name: FriendlyIntParser
+Method Name: parseInt
+Parameters: String
+Returns: int
+
+Computers have made their way into a significant percentage of the homes in
+America, and as programmers we are responsible for designing user interfaces
+that everyone can use.  User interfaces need to be flexible so that if a user
+makes some non-fatal error, the interface can still figure out what the user
+meant.
+
+Your task is to write a class FriendlyIntParser which processes text input from
+a webpage.  The input should be a String representation of an integer, however,
+because this is a friendly user interface, we cut the user a little more slack:
+
+1. If the user types the letter "O" or "o", we assume that they meant the digit
+"0".
+2. If the user types the letter "l", we assume that they meant the digit "1".
+3. Commas and spaces are allowed, but are not processed (ignore them).
+
+If the user has still not entered a valid positive integer (even with the rules
+above), return -1 indicating an error.  Overflow is considered invalid, and -1
+should be returned.  Note:  A value greater than 2147483647 is overflow in both
+C++ and Java.
+
+Here is the method signature (be sure your method is public):
+int parseInt(String n);
+
+Input: n will contain between 0 and 50, inclusive, letters, numbers, spaces, or
+commas.
+
+Returns:  the integer represented by n, or -1 if n is not a valid non-negative
+integer
+
+Examples:
+"lo6" returns 106.
+"234,657" returns 234657.
+"hi" returns -1.
+",,,,,5,,5,  4" returns 554.
+"2200000000" returns -1.
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  FriendlyIntParser
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  parseInt
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int parseInt(String param0)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

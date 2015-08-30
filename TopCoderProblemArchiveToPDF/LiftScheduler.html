@@ -1,0 +1,1083 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          You are to direct a lift system in a building  with 
+          <b>
+            N
+          </b>
+           floors, 
+          <b>
+            M
+          </b>
+           lifts, and a capacity of 
+          <b>
+            C
+          </b>
+           people per lift. The simulation runs for four days. When individuals wish to make a journey between floors, they press a button at their starting floor indicating the direction (up or down) in which they wish to travel. When they enter the lift, they press a button in the lift indicating which floor they wish to travel to. Your task is to schedule the lifts to minimize the time spent travelling by the occupants of the building.
+          <br/>
+          <br/>
+          
+
+Time is split up into ticks, periods of length 3 seconds. In each tick, the following events occur.
+
+          <ol>
+            <li>
+               New journeys are created. If the button indicating their direction of travel on their starting floor is unlit, they press it. They then join the back of the queue on that floor. Anyone who has been queueing for at least twenty minutes gives up and takes the stairs. 
+            </li>
+            <li>
+               You are given the list of newly pressed buttons, from people starting journeys this tick, and from people who ended up entering lifts in the previous tick. You then tell the lifts what to do this tick. 
+            </li>
+            <li>
+               The lifts move, open/close their doors, or stay still. If the lift's doors are open, a light above the lift indicate which direction it is travelling in. People enter the lift if it is going in their chosen direction of travel. People who have arrived at their destination also exit the lift. If a lift with open doors has no entries or exits in that tick, it closes its doors at the end of the tick. 
+            </li>
+            <li>
+               On entering the lift, people press buttons, indicating which floor to go to. 
+            </li>
+          </ol>
+          
+You must supply two methods. At the start of each of the four days 
+          <b>
+            initialise
+          </b>
+           is passed the arguments 
+          <b>
+            N
+          </b>
+          ,
+          <b>
+            M
+          </b>
+          ,and 
+          <b>
+            C
+          </b>
+          . It is then the case that every tick your method 
+          <b>
+            step
+          </b>
+           is called and passed parameters 
+          <b>
+            upRequests
+          </b>
+          , 
+          <b>
+            downRequests
+          </b>
+          , 
+          <b>
+            liftRequests
+          </b>
+          , and 
+          <b>
+            state
+          </b>
+          . 
+          <b>
+            upRequests
+          </b>
+           and 
+          <b>
+            downRequests
+          </b>
+           contain lists of any floors at which buttons have been pressed in this tick desiring to go up or down. 
+          <b>
+            LiftRequests
+          </b>
+           and 
+          <b>
+            destinationRequests
+          </b>
+           show which buttons in lifts have been pressed; in particular, 
+          <b>
+            liftRequests[x]
+          </b>
+           is the index of the lift in which the button is pressed, and 
+          <b>
+            destinationRequests[x]
+          </b>
+           is the destination requested. 
+          <b>
+            state
+          </b>
+           is a string of characters representing the state of each lift. 
+          <br/>
+          <br/>
+          
+
+Each lift can be in one of five states: 
+          <b>
+            U
+          </b>
+           (travelling upwards), 
+          <b>
+            D
+          </b>
+           (travelling downwards), 
+          <b>
+            S
+          </b>
+          (stationary, with doors closed), 
+          <b>
+            L
+          </b>
+          (loading, having claimed to be about to be going up), 
+          <b>
+            M
+          </b>
+          (loading, having claimed to be about to be going down). If moving, lifts travel one floor per tick. You may not change the state of a lift that is loading in either direction (the doors will close automatically when loading is finished, changing the state to 'S').  With the one exception of 'U' to 'D' and vice versa, all other state transitions are allowed.  
+          <b>
+            step
+          </b>
+           must return a String 
+          <b>
+            ans
+          </b>
+           of states, where 
+          <b>
+            ans[i]
+          </b>
+           represents the new state for lift 
+          <b>
+            i
+          </b>
+          . 
+          <br/>
+          <br/>
+          
+
+Buttons are lit when pressed; when a lit button is pressed you are not informed. Floor buttons become unlit when that floor is arrived at by a lift claiming to be going in that direction, and lift buttons are unlit when the lift arrives at the requested floor. Floor buttons are then relit if individuals still wish to go in a particular direction, and no lifts are currently loading at that floor to go in that direction. Individuals having a choice of getting on multiple lifts will always choose the lift in the lowest numbered shaft. Lifts all start the day at floor zero. The simulation runs from 7a.m. to 8p.m. No journeys are generated after 7p.m. 
+          <br/>
+          <br/>
+          <h3>
+            Test Generation
+          </h3>
+          
+Test cases are generated by choosing integers 
+          <b>
+            N
+          </b>
+           in 
+          <b>
+            [5,40]
+          </b>
+          , 
+          <b>
+            M
+          </b>
+           in 
+          <b>
+            [10,50]
+          </b>
+          , 
+          <b>
+            C
+          </b>
+           in 
+          <b>
+            [5,30]
+          </b>
+          , 
+          <b>
+            P
+          </b>
+           in 
+          <b>
+            [25,200]
+          </b>
+          , 
+          <b>
+            B
+          </b>
+           in 
+          <b>
+            [1,20]
+          </b>
+          , and a double 
+          <b>
+            businessprob
+          </b>
+           in 
+          <b>
+            [0,1]
+          </b>
+          .
+          <br/>
+          <br/>
+          
+
+The test cases are generated to simulate a building with some retail floors and some business floors.  The business floors have about P employees per floor, while the retail floors have about P/10 per floor.  Each employee arrives in the morning and leaves in the afternoon, and takes about one break per ten hours where they go down to the bottom floor.  Shoppers come and go from the retail floors at a rate of about P per floor per hour, with fewer people early in the morning and late in the afternoon.  The shoppers also move between retail floors with about P/2 of them leaving each floor for some other floor per hour.  Finally, there is some random traffic, at a rate of about B people leaving each floor for some other floor per hour.  Some more details of the test generation are below.  For the precise implementation, see the source code.
+          <br/>
+          <br/>
+          
+
+
+Each non-ground floor is denoted business with probability businessprob, and retail otherwise. 
+          <b>
+            totretail
+          </b>
+           is then the total number of retail floors. Then 
+          <b>
+            arrtimes
+          </b>
+          , 
+          <b>
+            deptimes
+          </b>
+          , 
+          <b>
+            arrdevs
+          </b>
+          , 
+          <b>
+            depdevs
+          </b>
+          , are generated, each of size 
+          <b>
+            N
+          </b>
+           (with integer elements). Elements of 
+          <b>
+            arrtimes
+          </b>
+           are randomly generated in 
+          <b>
+            [1200,3600]
+          </b>
+           (8a.m. to 10a.m.), 
+          <b>
+            deptimes
+          </b>
+           in 
+          <b>
+            [10800,13200]
+          </b>
+          (4p.m. to 6p.m.), and 
+          <b>
+            arrdevs
+          </b>
+           and 
+          <b>
+            depdevs
+          </b>
+           in 
+          <b>
+            [100,600]
+          </b>
+          (5-30 minutes). In expectation, each business floor has about P employees and retail floors have about P/10 employees.  The employees of a floor have (roughly) Gaussian arrival times with means from arrtimes and deviations from arrdevs.  Similarly for their departure times.  We can calculate exp
+          <sub>
+            i,t
+          </sub>
+          , the expected fraction of staff present on floor i at time t (this peaks at close to 1 for the whole of the middle period of the day).  The staff on each floor take breaks at a rate of about 1/10 per hour.  Thus, about exp
+          <sub>
+            i,t
+          </sub>
+          *P/10 people leave each business floor for the ground level each hour (and a similar number return), while 1/10 as many leave and return each retail floor.
+          <br/>
+          <br/>
+          
+At time t, shoppers arrive and travel to floor i and leave floor i at a rate that is proportional to exp
+          <sub>
+            i,t
+          </sub>
+          , peaking at P people per hour during the middle part of the day when exp
+          <sub>
+            i,t
+          </sub>
+          =1.  In addition, shoppers move between retail floors.  At peak traffic, about P/2 people leave each retail floor for some other (randomly chosen) retail floor per hour.  Thus, if there are R retail floors, the retail traffic from one to another peaks at P/2/(R-1).  The i-&gt;j traffic is multiplied by exp
+          <sub>
+            i,t
+          </sub>
+           and exp
+          <sub>
+            j,t
+          </sub>
+          , reducing it early in the morning and late in the afternoon.
+          <br/>
+          <br/>
+          
+Finally, there is some random traffic between every pair of floors, at a rate of B/N people for each pair of floors per hour.
+          <br/>
+          <br/>
+          <h3>
+            Scoring
+          </h3>
+          
+
+Your preliminary score for a test case is the sum of the squares of the times (in ticks) of all journeys taken. If someone gives up and takes the stairs, that journey is scored as if it had taken 60 minutes. Anyone still in the system at 8p.m. shall be scored as if they had finished their journey at 8p.m.. The benchmark score is the sum over all journeys of 
+          <b>
+            (d+3)
+            <sup>
+              2
+            </sup>
+          </b>
+          , where 
+          <b>
+            d
+          </b>
+           is the distance between the departure and arrival floors. Your final score for the test case is equal to 
+          <b>
+            sqrt((preliminary score+1)/number of journeys)-sqrt(benchmark score/number of journeys)
+          </b>
+          . In the event that your program crashes, exceeds the time limit or returns invalid output, your score for that case is zero. Your final score is the sum over all test cases where you have a non-zero score of 
+          <b>
+            BEST/YOUR
+          </b>
+           where 
+          <b>
+            BEST
+          </b>
+           is the least non-zero score for that test-case, and 
+          <b>
+            YOUR
+          </b>
+           is your score for that case.
+
+
+          <h3>
+            Visualization
+          </h3>
+          
+A tool is available at 
+          <a href="http://www.topcoder.com/contest/problem/LiftScheduler/vis.html">
+            http://www.topcoder.com/contest/problem/LiftScheduler/vis.html
+          </a>
+          .
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  LiftScheduler
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  initialise
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int, int, int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int initialise(int N, int M, int C)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText"/>
+              </tr>
+              <tr>
+                <td>
+                   
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  step
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int[], int[], int[], int[], String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String step(int[] upRequests, int[] downRequests, int[] liftRequests, int[] destinationRequests, String state)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your methods are public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          All generation that is not otherwise specified is uniform.
+          <br/>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          There are 50 provisional tests.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          The memory limit is 1024MB and the time limit is 30 seconds.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Constraints
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          M is in [10,50]
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          N is in [5,40]
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          P is in [25,200]
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          C is in [5,30]
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          B is in [1,20]
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "0"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 0
+N: 29
+M: 33
+C: 28
+P: 184
+B: 16
+Number of Retail Floors /  Business Floors = 16 / 12
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "1"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 1
+N: 38
+M: 48
+C: 12
+P: 66
+B: 15
+Number of Retail Floors /  Business Floors = 34 / 3
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "2"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 2
+N: 9
+M: 48
+C: 5
+P: 132
+B: 10
+Number of Retail Floors /  Business Floors = 1 / 7
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "3"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 3
+N: 19
+M: 20
+C: 17
+P: 126
+B: 9
+Number of Retail Floors /  Business Floors = 5 / 13
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "4"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 4
+N: 31
+M: 46
+C: 18
+P: 175
+B: 8
+Number of Retail Floors /  Business Floors = 26 / 4
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "5"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 5
+N: 40
+M: 20
+C: 5
+P: 57
+B: 7
+Number of Retail Floors /  Business Floors = 2 / 37
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 6
+N: 12
+M: 20
+C: 23
+P: 123
+B: 2
+Number of Retail Floors /  Business Floors = 3 / 8
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "7"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 7
+N: 21
+M: 33
+C: 8
+P: 181
+B: 1
+Number of Retail Floors /  Business Floors = 16 / 4
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "8"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 8
+N: 33
+M: 18
+C: 11
+P: 54
+B: 13
+Number of Retail Floors /  Business Floors = 27 / 5
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "9"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"SEED = 9
+N: 6
+M: 33
+C: 21
+P: 48
+B: 20
+Number of Retail Floors /  Business Floors = 1 / 4
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText"/>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

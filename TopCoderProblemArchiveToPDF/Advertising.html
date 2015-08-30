@@ -1,0 +1,1074 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          After years of research and development, your firm has developed a new product; one so fantasic that everyone will have to have one once they realize how great it is.  Unfortunately for you, a competing company is also bringing a similar product to market.  There is no reason for anyone to have both your product and your competitor's and market research suggests that people slightly prefer your competitor's product, so you will need to out-manuever them if you want to be successful.
+          <br/>
+          <br/>
+          
+Lucky for you, your competitor thinks their product is so amazing that they don't need to advertise.  If you play your cards right, you may be able to turn a handy profit yet.
+          <br/>
+          <br/>
+          
+In this problem, you need to dynamically determine where to locate ads to maximize your profit.  Each person will be located at a point in two dimensions. A simulation will then occur over a number of time steps.  At the beginning of each time step, you may place  advertisements at particular locations, which will have an effect for that timestep only.  Each person will be influenced by three factors: the prior preference for your competitor's product, the influence of your advertising, and the influence of other people who have already purchased one product or the other.  
+          <br/>
+          <br/>
+          
+More specifically, a person 
+          <tt>
+            P
+          </tt>
+           will start with a weight 
+          <tt>
+            w
+            <sub>
+              P
+            </sub>
+             = 
+            <b>
+              competitor
+            </b>
+             &lt; 0
+          </tt>
+          .  For every other person who has purchased a product, the distance 
+          <tt>
+            d
+          </tt>
+           from that person to 
+          <tt>
+            P
+          </tt>
+           will be computed.  The weight will then be adjusted up or down by 
+          <tt>
+            C*(d+500)
+            <sup>
+              -2
+            </sup>
+          </tt>
+           (up if the person uses your product, down if he uses your competitor's).  Next, for each advertisement you place, the distance 
+          <tt>
+            d
+          </tt>
+           from that ad to 
+          <tt>
+            P
+          </tt>
+           will be computed and the weight will be increased by 
+          <tt>
+            D*(d+500)
+            <sup>
+              -2
+            </sup>
+          </tt>
+          .  At each time step, each person 
+          <tt>
+            P
+          </tt>
+           will select a value 
+          <tt>
+            x
+            <sub>
+              P
+            </sub>
+          </tt>
+           as 
+          <tt>
+            -ln(1/r-1)
+          </tt>
+          , where 
+          <tt>
+            r
+          </tt>
+           is a uniform random variable in (0,1).  Each person with a difference between 
+          <tt>
+            x
+            <sub>
+              P
+            </sub>
+          </tt>
+           and 
+          <tt>
+            w
+            <sub>
+              P
+            </sub>
+          </tt>
+           greater than 8 will be selected.  If 
+          <tt>
+            x
+            <sub>
+              P
+            </sub>
+          </tt>
+           is smaller than 
+          <tt>
+            w
+            <sub>
+              P
+            </sub>
+          </tt>
+          , the person will buy your product, otherwise the person will buy your competitor's product.  The result of all this is that the higher the magnitude of a person's weight, the more likely that person is to buy a product in the next timestep.  For instance, a person with a weight of 0 will buy your product with probability 3.4E-4 and your competitor's with the same probability, while a person with weight 2 will buy your product with probability 2.5E-3 and your competitors with probability 4.54E-5.
+          <br/>
+          <br/>
+          
+
+The initial locations of the 
+          <b>
+            N
+          </b>
+           people will be chosen from 
+          <tt>
+            K
+          </tt>
+           normal distributions, each with a weight 
+          <tt>
+            s
+            <sub>
+              i
+            </sub>
+          </tt>
+           chosen as 
+          <tt>
+            r
+            <sup>
+              2
+            </sup>
+          </tt>
+          , where 
+          <tt>
+            r
+          </tt>
+           is a uniform random variable in (0,1).  Each distribution will have independently chosen standard deviations in the 
+          <tt>
+            x
+          </tt>
+           and 
+          <tt>
+            y
+          </tt>
+           directions from the range (200,1200), along with means chosen independently in (0,10000) for each coordinate.  A person will be chosen from distribution 
+          <tt>
+            i
+          </tt>
+           with probability proportional to 
+          <tt>
+            s
+            <sub>
+              i
+            </sub>
+          </tt>
+          .
+          <br/>
+          <br/>
+          
+You will first be given the locations of all the people in the simulation, along with some of the parameters of the simulation, and you should return an int (which will be ignored).  The update method will then be called repeatedly, telling you which people bought which products.  Element 
+          <tt>
+            i
+          </tt>
+           of 
+          <b>
+            index
+          </b>
+           gives the 0-based index into 
+          <b>
+            x
+          </b>
+           and 
+          <b>
+            y
+          </b>
+          , and element 
+          <tt>
+            i
+          </tt>
+           of 
+          <b>
+            product
+          </b>
+           tells which one they purchased (1 for your's, -1 for your competitor's).  You should then return your advertising scheme for the next time step.  Each element of the returned String[]'s should be formatted as "&lt;x&gt; &lt;y&gt;".  The first time the update function is called, the arrays will have size 0, as no one has bought either product before the start of the simulation.
+          <br/>
+          <br/>
+          
+For each ad you place in each timestep, a cost 
+          <b>
+            $adCost
+          </b>
+           will be incurred.  For each person that buys your product, you will make a profit of $1.  Your goal, naturally, is to maximize your overall profit.  Your overall score will simply be the average of you profit on all the test cases.
+
+          <br/>
+          <br/>
+          
+A 
+          <a href="http://www.topcoder.com/contest/problem/Advertising/vis.html">
+            visualizer
+          </a>
+           provided to help you develop your solution.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  Advertising
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  update
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int[], int[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String[] update(int[] index, int[] product)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText"/>
+              </tr>
+              <tr>
+                <td>
+                   
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  init
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  double, double, double[], double[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int init(double competitor, double adCost, double[] x, double[] y)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your methods are public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Ads only last one timestep.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          If no one buys any product during one step of the simulation, the simulation will be rerun for that timestep, until at least one person purchases a product.  
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Negative scores will be increased to 0.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          If you place more than 
+          <b>
+            N/adCost
+          </b>
+           ads, the simulation will terminate, and you will receive a 0.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          While you can test the examples in the visualizer by entering the seeds 1..10, you may also download the locations of the people from http://www.topcoder.com/contest/problem/Advertising/ex0, http://www.topcoder.com/contest/problem/Advertising/ex1 ...
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          The time limit is 60 seconds, and the memory limit is 1024MB.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Constraints
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          All parameters except N and K are chosen as real numbers.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <b>
+            competitor
+          </b>
+           will be chosen uniformly at random in (-2,-0.2)
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <b>
+            adCost
+          </b>
+           will be chosen uniformly at random in (1,10)
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <b>
+            K
+          </b>
+           will be chosen uniformly at random in [1,10]
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <b>
+            N
+          </b>
+           will be chosen uniformly at random in [1000,10000]
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <b>
+            C
+          </b>
+           will be chosen uniformly at random in (1000,10000)
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <b>
+            D
+          </b>
+           will be chosen uniformly at random in (10000,100000)
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "1"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 7391
+K = 9
+competitor = -1.3996769602268109
+adCost = 4.382947278105306
+C = 6301.356583692691
+D = 45932.296033727725
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "2"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 5472
+K = 9
+competitor = -1.0045314816459034
+adCost = 8.902017566435216
+C = 4963.193236302646
+D = 12305.219227908448
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "3"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 2957
+K = 2
+competitor = -1.0124084785466487
+adCost = 8.486097310432115
+C = 8352.767238144268
+D = 20771.48561706445
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "4"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 1919
+K = 4
+competitor = -0.9458449941876446
+adCost = 2.801237217217649
+C = 8844.189389597545
+D = 25647.04548673069
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "5"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 5140
+K = 1
+competitor = -0.5652464571554352
+adCost = 9.541264833756037
+C = 4899.988907012099
+D = 14373.876861986962
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 2405
+K = 7
+competitor = -1.3993566754565898
+adCost = 5.066824826451321
+C = 9852.743130232526
+D = 65726.35643776048
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "7"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 8827
+K = 1
+competitor = -1.0003950048572934
+adCost = 7.1222354960475
+C = 4269.086656520765
+D = 37525.0749757682
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "8"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 7707
+K = 1
+competitor = -1.624774126161923
+adCost = 2.5832086712621076
+C = 4693.371585706174
+D = 55541.24266699317
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "9"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 9239
+K = 7
+competitor = -0.3999948330662635
+adCost = 3.18788302929607
+C = 7088.008974203557
+D = 84879.89527259486
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "10"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"N = 7933
+K = 10
+competitor = -0.46486861795146006
+adCost = 8.54999748312766
+C = 3455.1239532547734
+D = 11926.436040241912
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

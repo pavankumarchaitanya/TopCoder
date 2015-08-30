@@ -1,0 +1,192 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <pre>
+            Class Name: MayanCalendar
+Method Name: getDate
+Parameters: int
+Returns: String
+
+Write a class MayanCalendar, which contains a method getDate. getDate takes an
+int representing the number of days that have passed since the beginning of the
+Mayan Calander, and returns a String representing the date.
+
+Here is the method signature:
+public String getDate(int iDays);
+* iDays is an int from 0 to 9999999, inclusive
+
+A Mayan date has three parts: the "Long Count", the "Tzolkin", and the "Haab".
+The Mayan calendar starts on the date 13.0.0.0.0, 4 Ahau 8 Cumku (this is day
+0).  The "13.0.0.0.0" is the Long Count, the "4 Ahau" is the Tzolkin, and the
+"8 Cumku" is the Haab.  Each part is explained below.
+
+The Long Count----------------
+The long count is made up of 5 elements: the baktun, katun, tun, uinal, and
+kin.  1 kin is equal to 1 day.  1 uinal is equal to 20 kin (20 days).  1 tun is
+equal to 18 uinal (360 days). 1 katun is equal to 20 tun (7200 days).  1 baktun
+is equal to 20 katun (144,000 days).
+
+         13.1.2.3.4
+         ^^ ^ ^ ^ ^
+         ^^ ^ ^ ^ kin
+         ^^ ^ ^ uinal
+         ^^ ^ tun
+         ^^ katun
+         baktun
+
+     The kin's place can have a value from 0 to 19.
+     The uinal's place can have a value from 0 to 17.
+     The tun's place can have a value from 0 to 19.
+     The katun's place can have a value from 0 to 19.
+     The baktun's place can have a value from 1 to 13.
+
+When the calendar advances by a day, the kin's place is increased by 1.
+If this would put the kin's place greater than its maximum value of 19, then
+the kin's place is made 0, and the uinal's place is increased by 1.  (This is
+just like regular addition; you carry 1 to the next place and set the current
+place to the lowest value when a place is filled.)  The day following
+13.19.19.17.19 is 1.0.0.0.0.
+
+The Tzolkin-------------------
+The Tzolkin has two elements, a number from 1 to 13, and twenty different names
+(given as an array in the solution): Ahau, Imix, Ik, Akbal, Kan, Chicchan,
+Cimi, Manik, Lamat, Muluc, Oc, Chuen, Eb, Ben, Ix, Men, Cib, Caban, Etznab, and
+Caunac.  The number advances every day until it is 13.  Then, it resets back to
+1.  The names advance every day in order until they reach Caunac, then they
+begin again at Ahau.  Thus, 4 Ahau is followed by 5 Imix, which is followed by
+6 Ik, etc.
+
+The Haab----------------------
+The haab is composed of 18 "months" of 20 days followed by one "month" of 5
+days (also given as an array in the solution).  The regular 18 "months" are
+Pop, Uo, Zip, Zotz, Tzec, Xul, Yaxkin, Mol, Chen, Yax, Zac, Ceh, Mac, Kankin,
+Muan, Pax, Kayab, and Cumku.  The 5 day "month" is named Uayeb.  The days of
+the regular "months" are numbered from 0 to 19.  Uayeb's days are numbered from
+0 to 4.  Thus, 18 Cumku is followed by 19 Cumku, which is followed by 0 Uayeb,
+etc.
+
+Note:
+*In the Txolkin and Haab, each word does not always correspond to the same
+number.  
+*Day 0 is "13.0.0.0.0, 4 Ahau 8 Cumku".
+*The return String is of the form "&lt;Long
+Count&gt;&lt;comma&gt;&lt;space&gt;&lt;Tzolkin&gt;&lt;space&gt;&lt;Haab&gt;". The long count contains 5 integers
+(no leading zeroes) with a period between each. The Tzolkin consists of an
+integer (with no leading zeroes), a space, and a word. The Haab consists of an
+integer (with no leading zeros), a space, and a word.
+
+Examples (quotes are for clarity only):
+If the parameter is 0, the String returned is "13.0.0.0.0, 4 Ahau 8 Cumku"
+If the parameter is 1, the String returned is "13.0.0.0.1, 5 Imix 9 Cumku"
+If the parameter is 2, the String returned is "13.0.0.0.2, 6 Ik 10 Cumku"
+If the parameter is 365, the String returned is "13.0.1.0.5, 5 Chicchan 8 Cumku"
+If the parameter is 144000, the String returned is "1.0.0.0.0, 3 Ahau 13 Chen"
+If the parameter is 214871, the String returned is "1.9.16.15.11, 11 Chuen 14
+Ceh"
+If the parameter is 312498, the String returned is "2.3.8.0.18, 8 Etznab 1 Zip"
+If the parameter is 498133, the String returned is "3.9.3.12.13, 3 Ben 16 Mac"
+If the parameter is 1692758, the String returned is "11.15.2.1.18, 6 Etznab 16
+Ceh"
+If the parameter is 1872000, the String returned is "13.0.0.0.0, 4 Ahau 3 Kankin"
+If the parameter is 9948905, the String returned is "4.1.15.15.5, 9 Chicchan 3
+Tzec"
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  MayanCalendar
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  getDate
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String getDate(int param0)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

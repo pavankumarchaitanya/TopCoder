@@ -1,0 +1,913 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <p>
+            You have just been hired as your city's new traffic control engineer.  A city is represented as a grid, where north-south streets run at x = 10, 20, 30, etc, and east-west streets run at y = 10, 20, 30, etc.  Points such as (30, 17) and (43, 20) are points along roads, while points such as (30, 40) and (20, 20) are at intersections.  At every intersection there is a traffic light.  (1, 1) is the northwest corner of the city, while (
+            <b>
+              width
+            </b>
+            , 
+            <b>
+              height
+            </b>
+            ) is the southeast corner.
+          </p>
+          <p>
+            Based upon significant research done by your predecessor, you have detailed information about where many cars begin their commute, and the exact path they will take to get to their destination.
+          </p>
+          <p>
+            Each traffic light is programmed so that a green light faces exactly one of the four cardinal directions at any given moment.  Each traffic light will run its own timing sequence, and will loop through that sequence indefinitely.  Each sequence can contain up to 20 directions.
+          </p>
+          <p>
+            You are given the 
+            <b>
+              width
+            </b>
+             and 
+            <b>
+              height
+            </b>
+             of the city, and a String[] describing the commute path of each car that was studied.  Each dimension of the city is congruent to 9 MOD 10.  The number of intersections is (
+            <b>
+              width
+            </b>
+             / 10) * (
+            <b>
+              height
+            </b>
+             / 10), using integer division.  Thus, a 59 x 49 city would have 5 * 4 = 20 intersections.
+          </p>
+          <p>
+            The path of each car is given as the starting x,y location and a sequence of moves in one of the four cardinal directions, where each move means to move to the next intersection in that direction.  After the final move, the car pulls into a parking garage at the final intersection, and is no longer on the road.  For instance, if a path is described as "25,20 ENWS" (quotes for clarity), that means the car started at (25, 20), travelled east to (30, 20), turned left and travelled north to (30, 10), turned left again and travelled west to (20, 10), then turned left once more and travelled south to its final destination of (20, 20).
+          </p>
+          <p>
+            During each unit of time, a car will attempt to move one unit in the direction it is currently travelling, provided that location is clear of any other car moving in the same direction.  (Two cars travelling the same road in opposite directions, however, can occupy the same location.)  When about to enter an intersection, a car will only do so if the entire intersection is clear (no cars moving in any direction), and there is a green light for that direction.
+          </p>
+          <p>
+            The returned String[] should represent the traffic light timing string for each traffic light, starting with the one at (10, 10), and proceeding in row-major order.  Each element should be formatted as a sequence of up to 20 'N', 'S', 'E', or 'W' characters, describing the sequence.  For instance, the timing "NNEWS" would have a green light for north-bound traffic at time 0 and 1, for east-bound at time 2, for west-bound at time 3, for south-bound at time 4, then repeating starting at time 5.
+          </p>
+          <p>
+            Your score will be the number of units of time it takes for each car to reach its destination.  You solution will be run for a maximum of 1,000 units of time, after which point you will be penalized an additional 50 units of time for each car not yet at its destination.  Your total score for a full submission will be the sum of min_score / your_score for each test case, where min_score is the lowest score by any submission for that test case.
+          </p>
+          <h2>
+            Test Case Generation
+          </h2>
+          <p>
+            The width and height of the city will each be chosen as 49, 59, ..., 199 (uniformly at random).  For each intersection, a set of proababilities will be chosen, defining the expected behavior of cars reaching that intersection.  Five probabilities will be chosen: the probability of a car ending its trip at that intersection, or of continuing one block in any of the four directions.  (All points in the 5-simplex are equally likely.)  The number of cars will be chosen between 200 and (height * width / 10), inclusive.  The path of each car is then generated:
+          </p>
+          <ul>
+            <li>
+              A starting point on any road, but not in an intersection, is chosen.  If another car is already at that starting location, another location is chosen.
+            </li>
+            <li>
+              An initial direction towards either adjacent intersection is chosen.  (If the starting location is near the edge of the board, there may be only one possible initial direction.)
+            </li>
+            <li>
+              The behavior of the car at this intersection is determined based upon the predefined probability for this intersection. (Going off the edge of the city, or making a u-turn are not permitted.)  This step repeats until the car finally reaches a destination.
+            </li>
+          </ul>
+          <p>
+            A 
+            <a href="http://www.topcoder.com/contest/problem/TrafficTiming/vis.html">
+              visualizer
+            </a>
+             is available for this problem.
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  TrafficTiming
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  setTimings
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int, int, String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String[] setTimings(int width, int height, String[] carPaths)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          The first few examples have fewer cars than normally allowed, to help facilitate testing.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          There are 100 non-example test cases.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Each test case is allowed 60 seconds to execute.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Memory limit is 1GB.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "1"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 139
+height = 169
+#cars = 1
+
+115,70 W
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "2"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"width = 119
+height = 149
+#cars = 10
+
+41,20 EESSW
+10,113 S
+90,47 N
+49,30 ES
+96,90 ENWNWWNENNNW
+40,119 SW
+25,110 EE
+30,103 S
+119,30 WWNWWS
+100,16 NE
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "3"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"width = 179
+height = 89
+#cars = 30
+
+10,14 S
+80,85 NEENN
+110,25 NNEEES
+84,10 EE
+90,12 NE
+170,84 NNNN
+170,31 N
+34,50 WNWWN
+22,40 W
+24,50 ESS
+110,28 NE
+93,30 ESENESS
+60,73 NW
+150,69 NWWSS
+54,40 W
+160,17 NE
+5,50 ENN
+99,20 WNE
+160,42 NNNES
+140,51 N
+40,2 S
+134,60 WNW
+143,50 EEE
+74,30 ESE
+45,30 W
+85,70 ESEE
+108,80 ENNNNWSENN
+149,40 ENNENW
+173,10 WS
+10,28 S
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "4"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"width = 179
+height = 109
+#cars = 100
+
+175,40 WNW
+38,90 W
+110,14 N
+110,59 NNW
+52,50 ES
+29,10 E
+170,52 N
+56,70 EEEESEEEENNESENEENW
+173,20 WSW
+46,70 WS
+10,78 SS
+157,80 EN
+80,31 NW
+42,50 ENNEN
+122,70 WNEENES
+70,72 SSSE
+78,50 WSWNEENWNWWWS
+53,80 EESSW
+70,63 NE
+78,60 E
+100,69 NN
+113,40 WW
+152,50 W
+20,99 NEN
+106,70 E
+126,40 WWW
+30,107 NNNE
+142,80 ESWWS
+75,30 WWSEE
+149,10 E
+136,20 ENE
+50,93 NNENEESSWSWN
+70,78 NEENN
+20,74 NWN
+120,66 SSENNEN
+120,29 SWSW
+40,1 S
+40,46 S
+56,40 EENWSWSS
+129,80 ENW
+125,60 WN
+40,69 NWNEN
+60,16 SWWWW
+70,79 NWSWSWSW
+120,43 SWNEENESWNESSEENNN
+70,4 SES
+90,68 NNNW
+60,108 NWNN
+146,40 WSE
+38,40 WWNWNN
+50,5 SWSS
+170,38 SWSWNEN
+110,19 N
+119,80 W
+100,108 NNEEES
+114,90 EENN
+168,30 WSESWW
+46,40 W
+145,50 ESES
+140,41 S
+60,74 N
+20,68 SWN
+30,74 SEE
+125,20 W
+70,32 NNN
+173,60 WWNWS
+60,2 S
+80,2 SSSS
+123,50 ESE
+24,100 EENWN
+76,40 EN
+146,90 WN
+167,80 WN
+145,90 ESE
+90,96 S
+50,31 SSSWSESENEEEE
+20,45 S
+20,37 NWS
+110,54 N
+110,77 SWWWSS
+120,88 SWSE
+30,47 N
+80,6 SW
+80,99 NE
+44,20 WSSW
+120,11 NWWSWSENEE
+20,107 NW
+130,5 SWWSSWNW
+34,60 WWW
+116,40 WW
+120,34 NEEEE
+40,48 N
+60,11 N
+80,72 S
+77,100 WWW
+13,20 W
+170,105 NN
+174,40 WNNN
+25,100 WWNNEES
+92,20 WSES
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "5"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 109
+height = 49
+#cars = 381
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "6"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 199
+height = 79
+#cars = 1032
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "7"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 99
+height = 179
+#cars = 964
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "8"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 109
+height = 139
+#cars = 1141
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "9"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 149
+height = 69
+#cars = 1022
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "10"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: "width = 89
+height = 49
+#cars = 353
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText"/>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

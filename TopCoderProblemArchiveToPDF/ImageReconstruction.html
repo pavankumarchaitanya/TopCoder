@@ -1,0 +1,874 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <p>
+            Your job is to unscramble a photograph in the fewest number of iterations possible.
+          </p>
+          <p>
+            The image is divided up into uniformly-sized square pieces and the pieces are shuffled.  Your method will be provided with the size of each piece in pixels (the width and height are the same), the number of columns and rows of pieces in the image, and an array of pixel values.  Each pixel value is encoded as an integer with eight bits per color component in RGB order, from most significant to least significant.  You can decode each pixel with 
+            <tt>
+              int red = (pixel &gt;&gt; 16), green = (pixel &gt;&gt; 8) &amp; 0xff, blue = pixel &amp; 0xff;
+            </tt>
+            .
+          </p>
+          <p>
+            Pieces are numbered from zero to 
+            <tt>
+              rows*columns-1
+            </tt>
+            .  Given a piece 
+            <tt>
+              n
+            </tt>
+            , the image data for that piece can be found in row-major order in the pixels array starting at 
+            <tt>
+              n*pieceSize*pieceSize
+            </tt>
+            .  You can extract the pixel value at line 
+            <tt>
+              y
+            </tt>
+             and column 
+            <tt>
+              x
+            </tt>
+             of piece n with the expression 
+            <tt>
+              pixels[n*pieceSize*pieceSize+y*pieceSize+x]
+            </tt>
+            .
+          </p>
+          <p>
+            You are provided with a 
+            <tt>
+              verify
+            </tt>
+             method which tells you which pieces are in the correct places in a guess.  You pass it an array containing 
+            <tt>
+              rows*columns
+            </tt>
+             integers, each of which represents a slot in the image in row major order so that the guess for the slot at row 
+            <tt>
+              r
+            </tt>
+             and column 
+            <tt>
+              c
+            </tt>
+             is at 
+            <tt>
+              r*columns+c
+            </tt>
+            .  Each slot should contain a piece number as described above.  The method returns a corresponding array of integers.  If the guess for a particular slot is correct, the corresponding return slot will be 1; otherwise, it will be 0.  This means that it is possible to create the correct image without looking at the pixel data.
+          </p>
+          <p>
+            Your solution must return a guess in the same format as would be passed to the 
+            <tt>
+              verify
+            </tt>
+             method.  Your raw score for each case will be 1 plus the number of calls made to 
+            <tt>
+              verify
+            </tt>
+            , or zero if your solution does not return the pieces in the correct order.  Your aggregated score will be the sum of the lowest raw score received by any competitor on a case divided by your score on the case, excluding any cases in which you received a raw zero.
+          </p>
+          <h3>
+            Visualizer
+          </h3>
+          
+As in past contests, we have provided a Java 
+          <a href="http://www.topcoder.com/contest/problem/ImageReconstruct/vis.html">
+            visualization tool 
+          </a>
+          .
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  ImageReconstruction
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  reconstruct
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int, int, int, int[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int[] reconstruct(int pieceSize, int columns, int rows, int[] pixels)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Notes
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          You have 60 seconds per case.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          You can use a maximum of 512M of memory.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Test cases are chosen using http://commons.wikimedia.org/wiki/Special:Random/Image .  Images which are not primarily photographic or photo-realistic, such as line drawings, are discarded.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          Images are centered and cropped after any scaling to make each image dimension a multiple of the piece size.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          As is customary, row (or line) 0 is the top.
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          <tt>
+            verify
+          </tt>
+           does not require each slot to be filled with a unique piece number.  You can pass all zeros, for example.
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Constraints
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          pieceSize will be 10, 20, or 30, chosen uniformly at random
+        </td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="statText">
+          -
+        </td>
+        <td class="statText">
+          neither image dimension will be more than 500 pixels - larger images will be scaled so that the larger dimension becomes 500
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Examples
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          0)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e1,http://commons.wikimedia.org/wiki/Image:Chemical_Brothers_Live.jpg,20,25,18,23784"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Chemical_Brothers_Live.jpg
+  Piece Size: 20x20
+     Columns: 25
+        Rows: 18
+        Seed: 23784
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Chemical_Brothers_Live.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          1)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e2,http://commons.wikimedia.org/wiki/Image:Flickr_hellochris_202508906--In-N-Out_triple_cheeseburger_fries.jpg,30,16,12,27360"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Flickr_hellochris_202508906--In-N-Out_triple_cheeseburger_fries.jpg
+  Piece Size: 30x30
+     Columns: 16
+        Rows: 12
+        Seed: 27360
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Flickr_hellochris_202508906--In-N-Out_triple_cheeseburger_fries.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          2)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e3,http://commons.wikimedia.org/wiki/Image:Tienen_Stadhuis.jpg,30,16,11,9981"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Tienen_Stadhuis.jpg
+  Piece Size: 30x30
+     Columns: 16
+        Rows: 11
+        Seed: 9981
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Tienen_Stadhuis.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          3)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e4,http://commons.wikimedia.org/wiki/Image:Todaiji05s3200.jpg,30,11,16,6231"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Todaiji05s3200.jpg
+  Piece Size: 30x30
+     Columns: 11
+        Rows: 16
+        Seed: 6231
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Todaiji05s3200.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          4)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e5,http://commons.wikimedia.org/wiki/Image:800px-Kalithea_Achaias.jpg,20,24,15,20710"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:800px-Kalithea_Achaias.jpg
+  Piece Size: 20x20
+     Columns: 24
+        Rows: 15
+        Seed: 20710
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_800px-Kalithea_Achaias.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          5)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e6,http://commons.wikimedia.org/wiki/Image:Passower_Kirche.JPG,30,16,12,32464"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Passower_Kirche.JPG
+  Piece Size: 30x30
+     Columns: 16
+        Rows: 12
+        Seed: 32464
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Passower_Kirche.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          6)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e7,http://commons.wikimedia.org/wiki/Image:Wawer.jpg,30,12,16,10059"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Wawer.jpg
+  Piece Size: 30x30
+     Columns: 12
+        Rows: 16
+        Seed: 10059
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Wawer.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          7)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e8,http://commons.wikimedia.org/wiki/Image:Eisenbahnmarkthalle5_Detail_Berlin.JPG,10,32,50,21813"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Eisenbahnmarkthalle5_Detail_Berlin.JPG
+  Piece Size: 10x10
+     Columns: 32
+        Rows: 50
+        Seed: 21813
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Eisenbahnmarkthalle5_Detail_Berlin.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          8)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e9,http://commons.wikimedia.org/wiki/Image:Teplice%2C_Prosetice%2C_14Tr_III.JPG,20,25,16,23572"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Teplice%2C_Prosetice%2C_14Tr_III.JPG
+  Piece Size: 20x20
+     Columns: 25
+        Rows: 16
+        Seed: 23572
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Teplice_Prosetice_14Tr_III.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" nowrap="true" class="statText">
+          9)
+        </td>
+        <td class="statText"/>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td class="statText">
+                          <pre>
+                            "e10,http://commons.wikimedia.org/wiki/Image:Woody_London.jpg,20,24,15,26240"
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <pre>
+                    Returns: 
+"   Image URL: http://commons.wikimedia.org/wiki/Image:Woody_London.jpg
+  Piece Size: 20x20
+     Columns: 24
+        Rows: 15
+        Seed: 26240
+
+"
+                  </pre>
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  <table style="visibility: visible;">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" class="statText">
+                          <img src="http://www.topcoder.com/contest/problem/ImageReconstruct/Image_Woody_London.png"/>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

@@ -1,0 +1,158 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <pre>
+            Class Name: BallMotion
+Method Name: getLocation
+Parameters: int,int,int,int,int,int,int,int
+Returns: String
+
+Consider a room of length xMax feet and width yMax feet that has a ball of
+radius r stationed at some point (xStart,yStart) within its perimeter.
+Determine the x and y coordinates of the ball at a specified time t if the ball
+has an initial velocity, broken down into an x component (xVel) and a y
+component (yVel). (In other words, each second the ball moves xVel feet along
+the x direction and yVel feet along the y direction.) Assume that the ball
+always rolls with constant speed, and it rebounds from the wall precisely when
+it touches the wall at an equal but opposite angle that it hits the wall (Law
+of Reflection applies).
+
+Implement a class BallMotion which includes a method getLocation.  The method
+takes 8 ints as arguments: 
+*xMax, the length of the room (horizontal x distance), in feet;
+*yMax, the width of the room (vertical y distance), in feet;
+*xStart, the starting x coordinate of the center of the ball, in feet;
+*yStart, the starting y coordinate of the center of the ball, in feet;
+*radius, the radius of the ball, in feet;
+*xVel, the initial x velocity, in feet per second;
+*yVel, the initial y velocity, in feet per second;
+*time, the time, in seconds. 
+The method returns a String consisting of the final x and y coordinates, in
+feet, of the ball.  The String is of the form "(x,y)" where x and y are
+integers (with no leading zeroes) representing the final x and y coordinates of
+the center of the ball.  The quotes are for clarity and there are no spaces.
+
+The room spans from (0,0) to (xMax,yMax) where (0,0) is the lower left corner.
+A positive velocity represents motion away from 0.
+Here is the method signature:
+public String getLocation(int xMax, int yMax, int xStart, int yStart, int
+radius, int xVel, int yVel, int time);
+
+The parameters satisfy:
+0&lt;xMax&lt;=1000
+0&lt;yMax&lt;=1000
+radius&lt;xStart&lt;xMax-radius
+radius&lt;yStart&lt;yMax-radius
+0&lt;2*radius&lt;yMax
+0&lt;2*radius&lt;xMax
+-100&lt;=xVel&lt;=100
+-100&lt;=yVel&lt;=100
+0&lt;=time&lt;=1000
+
+Examples:
+*If the room is 10 x 10, and the ball is originally at (5,5) with radius 1, and
+initial x velocity 1, initial y velocity 1 and t=5, the method should return
+"(8,8)".
+*If the room is 10 x 10, and the ball is originally at (2,3) with radius 1, and
+initial x velocity 3, initial y velocity -1 and t=3, the method should return
+"(7,2)". 
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  BallMotion
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  getLocation
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  int, int, int, int, int, int, int, int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String getLocation(int param0, int param1, int param2, int param3, int param4, int param5, int param6, int param7)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

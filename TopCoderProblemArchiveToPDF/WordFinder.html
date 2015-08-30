@@ -1,0 +1,199 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <pre>
+            Class Name: WordFinder
+Method Name: findWords
+Parameters: String[], String[]
+Returns: String[]
+
+Implement a class WordFinder, which contains a method findWords. findWords
+takes two String[]'s.  The first String[] represents a puzzle of hidden words.
+The first String in the String[] is the first row of the puzzle, second String
+is second row, etc... The second String[] represents the words to look for in
+the puzzle.  findWords returns a String[] representing the locations of the
+first letter of each word to find, or the String, "Not Found", if the word is
+not in the puzzle.
+
+Here is the method signature:
+String[] findWords(String[] puzzle, String[] words);
+
+* puzzle will be a String[] of elements of equal length (1 to 50, inclusive),
+and will contain between 1 and 50 (inclusive) Strings.  The Strings will
+consist only of capital letters A-Z.
+* words will be a String[] of elements of varying length between 2 and 50,
+inclusive, and will contain at most 50 Strings.   The Strings will consist only
+of capital letters A-Z.
+* the strings in words will have at most 1 starting location in puzzle.  That
+is, the same word will not start in multiple locations, but puzzle may contain
+a word that starts at the same location multiple times.  No Strings in words
+will be palindromes.
+
+Words can be hidden horizontally, vertically, or diagonally (any diagonal
+direction) within the puzzle.  They may be hidden backwards or forwards.  When
+a word is found, record the location of the first letter of that word in a
+String of the form "row,column" (the quotes are for clarity only).  Locations
+should be returned in the same order as the words were given.  1,1 is the top
+left corner of the puzzle.  If the same word is in the second String[] twice,
+its location should be returned twice.
+
+Walk-through example:
+   Suppose that puzzle contained the following elements:
+      HGFRUITEZYXL
+      CRWPWQNVUTEO
+      AAAILUIDOMYP
+      EPKERUAFOBCF
+      PELPPAMNGJLK
+
+   Further, suppose the words to find are the following words:
+      [FRUIT, APPLE, GRAPE, PEACH, MANGO, PEAR, PLUM, KIWI, PRUNE, LEMON]
+
+FRUIT is located (horizontally) in the 1st row, beginning at the 3rd column,
+so its location is 1,3.
+APPLE is located (horizontally backwards) in the last (5th) row, beginning
+at the 6th column, so its location is 5,6.
+GRAPE is located (vertically) in the 1st row, beginning at the 2nd column,
+so its location is 1,2.
+PEACH is located (vertically backwards) in the last (5th) row, beginning at
+the 1st column, so its location is 5,1.
+   MANGO is not located in the puzzle, so its location is "Not Found".
+PEAR is located (diagonally) in the last (5th) row, beginning at the 5th
+column, so its location is 5,5.
+PLUM is located (diagonally) in the 2nd row, beginning at the 4th column, so
+its location is 2,4.
+KIWI is located (diagonally) in the 4th row, beginning at the 3rd column, so
+its location is 4,3.
+PRUNE is located (diagonally) in the 5th row, beginning at the 4th column,
+so its location is 5,4.
+LEMON is located (diagonally) in the 1st row, beginning at the last (12th)
+column, so its location is 1,12.
+
+   The String[] returned would be:
+      [1,3, 5,6, 1,2, 5,1, Not Found, 5,5, 2,4, 4,3, 5,4, 1,12]
+
+Examples:
+  Puzzle: [TEACHEZABS,
+           CDPEFGNHIH,
+           STJASKOLMA,
+           TNEOPSYQRR,
+           USTALEAUVP,
+           DWXYCIRLZE,
+           EABKCHCDCN,
+           NEOFGHENIE,
+           TOJRESARER,
+           BKQPRSNDFP]
+Words to Find: [BOOK, PENCIL, ERASER, CRAYON, SHARPENER, CHALK, PAPER,
+TEACHER, STUDENT, CLASS]
+Locations returned: [10,1, 10,10, 9,9, 7,7, 1,10, Not Found, 2,3, 3,2, 3,1,
+7,9]
+
+  Puzzle: [WE,
+           BM,
+           AY,
+           TN,
+           IO,
+           RF]
+Words to Find: [IT, IN, ON, NO, TO, AT, IF, AD, AN, BE, WE, ME, MY, BY, OF,
+OR, BAT]
+Locations returned: [5,1, 5,1, 5,2, 4,2, 4,1, 3,1, 5,1, Not Found, 3,1, 2,1,
+1,1, 2,2, 2,2, 2,1, 5,2, 5,2, 2,1]
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  WordFinder
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  findWords
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  String[], String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  String[]
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  String[] findWords(String[] param0, String[] param1)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

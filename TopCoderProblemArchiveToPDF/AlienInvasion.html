@@ -1,0 +1,177 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <pre>
+            Class Name:  AlienInvasion
+Method Name: invasionTime
+Parameters:  String[], int, int
+Returns:     int
+
+After doing such a good job on your last assignment, Zorono, the king of an
+alien tribe planning to take over earth, has another assignment for you.
+Zorono is in the process of planning his conquest of the White House.
+
+Zorono has used his long-range scanners to obtain a floor plan of the White
+House, and has identified several key locations on the floor plan that his
+troops need to visit during the invasion.  Zorono has given you a copy of the
+floor plan along with a starting location.  It's up to you to determine the
+minimum amount of time that Zorono's troops will have to spend taking over the
+White House.  Assume that moving from cell to cell costs Zorono's troops one
+unit of time.  The troops can only move to cells that are directly above,
+below, or next to the current cell.  No diagonal moves are allowed.  The troops
+always stay together.
+ 
+Implement a class AlienInvasion, containing a method invasionTime.  The method
+takes 3 parameters.  The first is an String[] that stores the floor plan of the
+White House.  The String[] contains elements, each of the same length.  Each
+character in each String represents a cell.  The characters are ' ' (space),
+'W', or 'X'.  A space corresponds to an open area in which Zorono's troops can
+move freely.  A 'W' corresponds to a wall or some other obstacle blocking the
+path of Zorono's troops.  An 'X' corresponds to a location that Zorono's troops
+must visit and conquer.  Consider them waypoints that you must visit (in no
+particular order).  The first String in the String[] is the top row of the
+room, and the last String is the bottom row of the room.  The second and third
+parameters are the x (horizontal) and y (vertical) coordinates, respectively,
+of the starting location for Zorono's troops.  (0,0) is in the upper left
+corner of the room.  The return value of the method should be the minimum
+amount of time for Zorono's men to move from the starting location to every
+specified location on the map the troops must visit (all the X?s).  If Zorno's
+men can't visit every location, then the value -1 should be returned.  If there
+are no locations to visit, the method should return 0.
+
+Here is the method signature:
+int invasionTime(String[] map, int x, int y)
+
+map is a String[] of between 1 and 25, inclusive, elements.  The Strings are
+all of equal length and contain between 1 and 25, inclusive, characters.  The
+Strings will contain only W?s, X?s, and spaces.  The number of locations marked
+off on the map (X?s) is between 0 and 7, inclusive.  x and y are such that
+specified starting location (x,y) is inside the map, and not on top of a wall.
+The White House is surrounded by wall so all edge characters must be ?W?.
+TopCoder will check the validity of the input.
+
+Examples:
+
+If the String[] =
+{
+ "WWWWWWWWWWWWWWWWWWWW"  0
+ "W                  W"  1
+ "W WWW  WWWWWWWWWW  W"  2
+ "W W         W      W"  3
+ "W W X       W      W"  4
+ "W WWWWW     W X    W"  5
+ "W W         WWWWWWWW"  6
+ "W WWWWWWWW  W    X W"  7
+ "W      X W         W"  8
+ "WWWWWWWWWWWWWWWWWWWW"  9
+}
+  01234567890123456789
+            1111111111
+
+(The numbers are included for clarity, but will not be in the String[]).
+
+With a starting location of x=1 and y=1. (top left corner) the invasion time is
+89.
+
+[The order (1,1) to (7,8) to (4,4) to (17,7) to (14,5) will result in the
+length of 89.]
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  AlienInvasion
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  invasionTime
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  String[], int, int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int invasionTime(String[] param0, int param1, int param2)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+

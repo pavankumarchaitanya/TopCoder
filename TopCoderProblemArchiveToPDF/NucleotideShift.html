@@ -1,0 +1,169 @@
+<td class="problemText" valign="middle" align="left">
+  <table style="visibility: visible;">
+    <tbody>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Problem Statement
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <pre>
+            Class Name:  NucleotideShift
+Method Name: findMinimumShifts
+Parameters: String,String
+Returns: int
+
+A scientist has a strand of DNA and wants to obtain a certain sequence of acids
+by shifting as few nucleotides on the strand of DNA as possible.  The scientist
+has discovered a method to shift individual nucleotides on a strand of DNA.
+The nucleotides thymine (T), cytosine (C), guanine (G), and adenine (A) can be
+shifted as follows: T can shift to C, C to G, G to A, and A to T.  (Example: To
+shift from T to A takes 3 shifts.)  The scientist can also discard nucleotides
+off either or both of the ends of the original string to shorten the length of
+the DNA strand.  Discarding nucleotides is "free" and does not count as a
+nucleotide shift.
+
+The scientist wants to take the original DNA and change it to the target
+sequence of acids.  Nucleotides map to acids in a 3 to 1 ratio (3 nucleotides =
+1 acid).  Each set of 3 nucleotides (from left to right in a DNA strand)
+corresponds to an acid.  The mapping is done by considering each set of three
+nucleotides as a three digit base-4 number with values T = 0, C = 1, A = 2, G =
+3 and referencing the universal genetic code string.  The acid (letter) at the
+index specified by the base-4 number is the acid the three nucleotides
+correspond to.  
+
+Here is the universal genetic code:
+ugc = FFLLSSSSYY..CC.WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG
+
+Example: TCT = 010(base 4) = 4 = ugc.charAt(4) = 'S'
+
+Here is the method signature:
+int findMinimumShifts(String original, String target)
+
+INPUT:
+
+original is a string containing only the characters 'T', 'C', 'G', 'A' and
+contains between 1 and 50 letters, inclusive.
+
+target is a string containing only the characters 'F', 'L', 'S', 'Y', '.', 'C',
+'W', 'P', 'H', 'Q', 'R', 'I', 'M', 'T', 'N', 'K', 'V', 'A', 'D', 'E', and 'G'.
+It is 20 or fewer letters long.
+
+The applet will verify that the strings conform to these standards.
+
+OUTPUT:
+
+Minimum number of shifts to change the original strand of DNA to a strand of
+DNA that corresponds to the acids in the target.  If the target is not
+reachable, return -1.
+
+EXAMPLES:
+
+original = "TTT", target = "F" will return 0 because the original string
+already matches the desired acid sequence.
+
+original = "TTTTTTTTT", target = "FS" will return 1 because we can, with one
+shift, get "TTTTCT" which is one of the possible strings which corresponds with
+"FS".
+
+original = "GA", target = "." will return -1 because the target is not reachable.
+
+original = "TTTTAT", target = "L" will return 0 because we can get "TTA" by
+dropping two characters from the front and one character from the rear of the
+string.
+
+original = "TAGCATGAGCATTTTCCCGGGAAA", target = "WESTERN" will return 19.
+
+          </pre>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="statText">
+          <h3>
+            Definition
+          </h3>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+        <td class="statText">
+          <table style="visibility: visible;">
+            <tbody>
+              <tr>
+                <td class="statText">
+                  Class:
+                </td>
+                <td class="statText">
+                  NucleotideShift
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method:
+                </td>
+                <td class="statText">
+                  findMinimumShifts
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Parameters:
+                </td>
+                <td class="statText">
+                  String, String
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Returns:
+                </td>
+                <td class="statText">
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td class="statText">
+                  Method signature:
+                </td>
+                <td class="statText">
+                  int findMinimumShifts(String param0, String param1)
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="statText">
+                  (be sure your method is public)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="statText">
+              
+        </td>
+      </tr>
+      <tr>
+        <td class="statText"/>
+      </tr>
+    </tbody>
+  </table>
+  <hr/>
+  <p>
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2010, TopCoder, Inc.  All rights reserved.  
+  </p>
+</td>
+
